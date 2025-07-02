@@ -1,322 +1,350 @@
-`html
-    .glass-effect {
-        background: rgba(255, 255, 255, 0.25);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-    }
-    
-    .card-hover {
-        transition: all 0.3s ease;
-        transform: translateY(0);
-    }
-    
-    .card-hover:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    }
-    
-    .gradient-text {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .pulse-animation {
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    
-    .float-animation {
-        animation: float 3s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-    }
-    
-    .progress-circle {
-        transform: rotate(-90deg);
-    }
-    
-    .neon-glow {
-        box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
-    }
-    
-    .week-card {
-        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.2);
-        transition: all 0.3s ease;
-    }
-    
-    .week-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-    }
-    
-    .achievement-card {
-        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-        animation: slideInRight 0.5s ease-out;
-    }
-    
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    
-    .stat-card {
-        background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
-        backdrop-filter: blur(15px);
-    }
-    
-    .emoji-large {
-        font-size: 3rem;
-        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-    }
-    
-    .button-3d {
-        background: linear-gradient(145deg, #667eea, #764ba2);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-    }
-    
-    .button-3d:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 25px rgba(0,0,0,0.3);
-    }
-    
-    .input-glow:focus {
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
-        border-color: #667eea;
-    }
-</style>
-<!-- Header -->
-<header class="relative z-10 text-white py-8 px-4">
-    <div class="max-w-6xl mx-auto text-center">
-        <div class="float-animation mb-4">
-            <div class="emoji-large">🎯</div>
-        </div>
-        <h1 class="text-5xl font-bold mb-3 text-white drop-shadow-lg">Mi Plan SAT</h1>
-        <div class="text-2xl font-semibold mb-2 text-yellow-300">Rumbo a 1450-1500</div>
-        <div class="glass-effect rounded-full px-6 py-2 inline-block">
-            <span class="text-white font-medium">📅 Del 2 de Julio al 22 de Agosto</span>
-        </div>
-        <div class="mt-4 text-lg text-blue-100">
-            <i class="fas fa-arrow-up mr-2"></i>Meta: 780 → 1450-1500
-        </div>
-    </div>
-</header>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Plan SAT - Rastreador de Progreso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <!-- Adaptador para fechas en Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 50px; /* Espacio para el footer */
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .pulse-animation {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .progress-circle {
+            transform: rotate(-90deg);
+        }
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+        .week-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .week-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .week-card.selected { /* Clase para la semana seleccionada */
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+            border: 2px solid #a7c1ff; /* Un borde más visible */
+            box-shadow: 0 0 25px rgba(167, 193, 255, 0.7); /* Un brillo más fuerte */
+            transform: scale(1.08); /* Un poco más grande al seleccionar */
+        }
+        .achievement-card {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            animation: slideInRight 0.5s ease-out;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+            backdrop-filter: blur(15px);
+        }
+        .emoji-large {
+            font-size: 3rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        .button-3d {
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .button-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+        }
+        .input-glow:focus {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+        /* Notification specific styles */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+        .notification {
+            background-color: #4CAF50; /* Green by default */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            opacity: 0; /* Start hidden */
+            transform: translateX(100%); /* Start off-screen */
+            animation: slideInNotification 0.5s ease-out forwards;
+            pointer-events: auto; /* Re-enable clicks on the notification itself */
+        }
+        .notification.error {
+            background-color: #f44336; /* Red for errors */
+        }
+        .notification.info {
+            background-color: #2196f3; /* Blue for info */
+        }
+        @keyframes slideInNotification {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideOutNotification {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
+        .notification.hide {
+            animation: slideOutNotification 0.5s ease-in forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
 
-<div class="relative z-10 max-w-7xl mx-auto px-4 py-8">
-    <!-- Progress Overview -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="stat-card rounded-2xl p-6 card-hover text-center">
-            <div class="emoji-large mb-2">📊</div>
-            <div class="text-4xl font-bold gradient-text mb-1" id="currentScore">780</div>
-            <div class="text-gray-600 font-medium">Puntaje Actual</div>
-            <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
-                <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full" style="width: 48.75%"></div>
+    <!-- Header -->
+    <header class="relative z-10 text-white py-8 px-4 w-full">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="float-animation mb-4">
+                <div class="emoji-large">🎯</div>
+            </div>
+            <h1 class="text-5xl font-bold mb-3 text-white drop-shadow-lg">Mi Plan SAT</h1>
+            <div class="text-2xl font-semibold mb-2 text-yellow-300">Rumbo a 1450-1500</div>
+            <div class="glass-effect rounded-full px-6 py-2 inline-block">
+                <span class="text-white font-medium">📅 Del 2 de Julio al 22 de Agosto</span>
+            </div>
+            <div class="mt-4 text-lg text-blue-100">
+                <i class="fas fa-arrow-up mr-2"></i>Meta: 780 → 1450-1500
             </div>
         </div>
-        <div class="stat-card rounded-2xl p-6 card-hover text-center">
-            <div class="emoji-large mb-2">🎯</div>
-            <div class="text-4xl font-bold gradient-text mb-1" id="targetScore">1450</div>
-            <div class="text-gray-600 font-medium">Meta</div>
-            <div class="text-green-600 font-semibold mt-2">+670 puntos</div>
-        </div>
-        <div class="stat-card rounded-2xl p-6 card-hover text-center">
-            <div class="emoji-large mb-2">🔥</div>
-            <div class="text-4xl font-bold gradient-text mb-1" id="daysStudied">0</div>
-            <div class="text-gray-600 font-medium">Días Estudiados</div>
-            <div class="pulse-animation mt-2">
-                <i class="fas fa-heart text-red-500"></i>
-            </div>
-        </div>
-        <div class="stat-card rounded-2xl p-6 card-hover text-center">
-            <div class="emoji-large mb-2">⏰</div>
-            <div class="text-4xl font-bold gradient-text mb-1" id="daysRemaining">52</div>
-            <div class="text-gray-600 font-medium">Días Restantes</div>
-            <div class="text-orange-600 font-semibold mt-2">¡Vamos!</div>
-        </div>
-    </div>
+    </header>
 
-    <!-- Progress Chart -->
-    <div class="glass-effect rounded-2xl p-8 card-hover mb-8">
-        <div class="flex items-center mb-6">
-            <div class="text-3xl mr-3">📈</div>
-            <h2 class="text-2xl font-bold text-white">Progreso de Puntaje</h2>
-        </div>
-        <div class="bg-white/90 rounded-xl p-4">
-            <canvas id="progressChart" width="400" height="200"></canvas>
-        </div>
-    </div>
-
-    <!-- Weekly Navigation -->
-    <div class="glass-effect rounded-2xl p-8 card-hover mb-8">
-        <div class="flex items-center mb-6">
-            <div class="text-3xl mr-3">📅</div>
-            <h2 class="text-2xl font-bold text-white">Navegación por Semanas</h2>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-            <button onclick="showWeek(1)" class="week-card week-btn text-white px-4 py-6 rounded-xl font-semibold transition-all hover:scale-105">
-                <div class="text-2xl mb-2">🏗️</div>
-                <div>Semana 1</div>
-                <div class="text-xs opacity-80">Fundamentos</div>
-            </button>
-            <button onclick="showWeek(2)" class="week-card week-btn text-white px-4 py-6 rounded-xl font-semibold transition-all hover:scale-105">
-                <div class="text-2xl mb-2">🧱</div>
-                <div>Semana 2</div>
-                <div class="text-xs opacity-80">Estructura</div>
-            </button>
-            <button onclick="showWeek(3)" class="week-card week-btn text-white px-4 py-6 rounded-xl font-semibold transition-all hover:scale-105">
-                <div class="text-2xl mb-2">⚡</div>
-                <div>Semana 3</div>
-                <div class="text-xs opacity-80">Intermedio</div>
-            </button>
-            <button onclick="showWeek(4)" class="week-card week-btn text-white px-4 py-6 rounded-xl font-semibold transition-all hover:scale-105">
-                <div class="text-2xl mb-2">🎯</div>
-                <div>Semana 4</div>
-                <div class="text-xs opacity-80">Estratégica</div>
-            </button>
-            <button onclick="showWeek(5)" class="week-card week-btn text-white px-4 py-6 rounded-xl font-semibold transition-all hover:scale-105">
-                <div class="text-2xl mb-2">💪</div>
-                <div>Semana 5</div>
-                <div class="text-xs opacity-80">Fortaleza</div>
-            </button>
-            <button onclick="showWeek(6)" class="week-card week-btn text-white px-4 py-6 rounded-xl font-semibold transition-all hover:scale-105">
-                <div class="text-2xl mb-2">✨</div>
-                <div>Semana 6</div>
-                <div class="text-xs opacity-80">Perfección</div>
-            </button>
-            <button onclick="showWeek(7)" class="week-card week-btn text-white px-4 py-6 rounded-xl font-semibold transition-all hover:scale-105">
-                <div class="text-2xl mb-2">🔍</div>
-                <div>Semana 7</div>
-                <div class="text-xs opacity-80">Revisión</div>
-            </button>
-            <button onclick="showWeek(8)" class="week-card week-btn text-white px-4 py-6 rounded-xl font-semibold transition-all hover:scale-105">
-                <div class="text-2xl mb-2">🏆</div>
-                <div>Semana 8</div>
-                <div class="text-xs opacity-80">Examen</div>
-            </button>
-        </div>
-    </div>
-
-    <!-- Daily Schedule -->
-    <div id="weeklySchedule" class="glass-effect rounded-2xl p-8 card-hover mb-8">
-        <div class="flex items-center mb-6">
-            <div class="text-3xl mr-3">📚</div>
-            <h2 class="text-2xl font-bold text-white">Horario de la Semana</h2>
-        </div>
-        <div id="scheduleContent" class="bg-white/90 rounded-xl p-6">
-            <!-- Content will be populated by JavaScript -->
-        </div>
-    </div>
-
-    <!-- Daily Progress Tracker -->
-    <div class="glass-effect rounded-2xl p-8 card-hover mb-8">
-        <div class="flex items-center mb-6">
-            <div class="text-3xl mr-3">✅</div>
-            <h2 class="text-2xl font-bold text-white">Registro Diario</h2>
-        </div>
-        <div class="bg-white/90 rounded-xl p-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-3">
-                        <i class="fas fa-calendar-alt mr-2 text-blue-600"></i>Fecha de Estudio
-                    </label>
-                    <input type="date" id="studyDate" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-0 input-glow transition-all">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-3">
-                        <i class="fas fa-chart-line mr-2 text-green-600"></i>Puntaje de Práctica
-                    </label>
-                    <input type="number" id="practiceScore" placeholder="Ej: 850" min="400" max="1600" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-0 input-glow transition-all">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 py-8 w-full">
+        <!-- Progress Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card rounded-2xl p-6 card-hover text-center">
+                <div class="emoji-large mb-2">📊</div>
+                <div class="text-4xl font-bold gradient-text mb-1" id="currentScore">780</div>
+                <div class="text-gray-600 font-medium">Puntaje Actual</div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full" style="width: 48.75%"></div>
                 </div>
             </div>
-            
-            <div class="mb-6">
-                <label class="block text-sm font-semibold text-gray-700 mb-4">
-                    <i class="fas fa-tasks mr-2 text-purple-600"></i>Actividades Completadas
-                </label>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <label class="flex items-center space-x-3 p-4 bg-blue-50 rounded-xl cursor-pointer hover:bg-blue-100 transition-colors">
-                        <input type="checkbox" id="mathCompleted" class="w-5 h-5 text-blue-600 rounded">
-                        <span class="font-medium text-blue-800">📊 Matemáticas</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-4 bg-green-50 rounded-xl cursor-pointer hover:bg-green-100 transition-colors">
-                        <input type="checkbox" id="readingCompleted" class="w-5 h-5 text-green-600 rounded">
-                        <span class="font-medium text-green-800">📖 Lectura</span>
-                    </label>
-                    <label class="flex items-center space-x-3 p-4 bg-purple-50 rounded-xl cursor-pointer hover:bg-purple-100 transition-colors">
-                        <input type="checkbox" id="writingCompleted" class="w-5 h-5 text-purple-600 rounded">
-                        <span class="font-medium text-purple-800">✍️ Escritura</span>
-                    </label>
+            <div class="stat-card rounded-2xl p-6 card-hover text-center">
+                <div class="emoji-large mb-2">🎯</div>
+                <div class="text-4xl font-bold gradient-text mb-1" id="targetScore">1450</div>
+                <div class="text-gray-600 font-medium">Meta</div>
+                <div class="text-green-600 font-semibold mt-2">+670 puntos</div>
+            </div>
+            <div class="stat-card rounded-2xl p-6 card-hover text-center">
+                <div class="emoji-large mb-2">🔥</div>
+                <div class="text-4xl font-bold gradient-text mb-1" id="daysStudied">0</div>
+                <div class="text-gray-600 font-medium">Días Estudiados</div>
+                <div class="pulse-animation mt-2">
+                    <i class="fas fa-heart text-red-500"></i>
                 </div>
             </div>
-            
-            <div class="mb-6">
-                <label class="block text-sm font-semibold text-gray-700 mb-3">
-                    <i class="fas fa-sticky-note mr-2 text-yellow-600"></i>Notas del Día
-                </label>
-                <textarea id="dailyNotes" placeholder="¿Qué aprendiste hoy? ¿Qué fue difícil? ¿Cómo te sientes?" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-0 input-glow transition-all h-24 resize-none"></textarea>
+            <div class="stat-card rounded-2xl p-6 card-hover text-center">
+                <div class="emoji-large mb-2">⏰</div>
+                <div class="text-4xl font-bold gradient-text mb-1" id="daysRemaining">52</div>
+                <div class="text-gray-600 font-medium">Días Restantes</div>
+                <div class="text-orange-600 font-semibold mt-2">¡Vamos!</div>
             </div>
-            
-            <button onclick="saveDailyProgress()" class="button-3d text-white px-8 py-4 rounded-xl font-semibold text-lg w-full md:w-auto">
-                <i class="fas fa-save mr-2"></i>💾 Guardar Progreso
-            </button>
         </div>
-    </div>
 
-    <!-- Statistics -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div class="glass-effect rounded-2xl p-8 card-hover">
+        <!-- Progress Chart -->
+        <div class="glass-effect rounded-2xl p-8 card-hover mb-8">
             <div class="flex items-center mb-6">
-                <div class="text-3xl mr-3">📊</div>
-                <h3 class="text-xl font-bold text-white">Estadísticas por Materia</h3>
+                <div class="text-3xl mr-3">📈</div>
+                <h2 class="text-2xl font-bold text-white">Progreso de Puntaje</h2>
             </div>
             <div class="bg-white/90 rounded-xl p-4">
-                <canvas id="subjectChart" width="300" height="300"></canvas>
+                <canvas id="progressChart" width="400" height="200"></canvas>
             </div>
         </div>
-        
-        <div class="glass-effect rounded-2xl p-8 card-hover">
+
+        <!-- Weekly Navigation -->
+        <div class="glass-effect rounded-2xl p-8 card-hover mb-8">
             <div class="flex items-center mb-6">
-                <div class="text-3xl mr-3">🏆</div>
-                <h3 class="text-xl font-bold text-white">Logros Recientes</h3>
+                <div class="text-3xl mr-3">📅</div>
+                <h2 class="text-2xl font-bold text-white">Navegación por Semanas</h2>
             </div>
-            <div id="achievements" class="space-y-4">
-                <div class="achievement-card text-white p-4 rounded-xl shadow-lg">
-                    <div class="flex items-center space-x-4">
-                        <div class="text-3xl">🎯</div>
-                        <div>
-                            <div class="font-bold text-lg">¡Bienvenido a tu plan SAT!</div>
-                            <div class="text-sm opacity-90">Comienza registrando tu primer día de estudio</div>
+            <div id="weekButtonsContainer" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
+                <!-- Week buttons will be dynamically generated here -->
+            </div>
+        </div>
+
+        <!-- Daily Schedule -->
+        <div id="weeklySchedule" class="glass-effect rounded-2xl p-8 card-hover mb-8">
+            <div class="flex items-center mb-6">
+                <div class="text-3xl mr-3">📚</div>
+                <h2 class="text-2xl font-bold text-white">Horario de la Semana</h2>
+            </div>
+            <div id="scheduleContent" class="bg-white/90 rounded-xl p-6">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Daily Progress Tracker -->
+        <div class="glass-effect rounded-2xl p-8 card-hover mb-8">
+            <div class="flex items-center mb-6">
+                <div class="text-3xl mr-3">✅</div>
+                <h2 class="text-2xl font-bold text-white">Registro Diario</h2>
+            </div>
+            <div class="bg-white/90 rounded-xl p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">
+                            <i class="fas fa-calendar-alt mr-2 text-blue-600"></i>Fecha de Estudio
+                        </label>
+                        <input type="date" id="studyDate" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-0 input-glow transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">
+                            <i class="fas fa-chart-line mr-2 text-green-600"></i>Puntaje de Práctica
+                        </label>
+                        <input type="number" id="practiceScore" placeholder="Ej: 850" min="400" max="1600" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-0 input-glow transition-all">
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-4">
+                        <i class="fas fa-tasks mr-2 text-purple-600"></i>Actividades Completadas
+                    </label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <label class="flex items-center space-x-3 p-4 bg-blue-50 rounded-xl cursor-pointer hover:bg-blue-100 transition-colors">
+                            <input type="checkbox" id="mathCompleted" class="w-5 h-5 text-blue-600 rounded">
+                            <span class="font-medium text-blue-800">📊 Matemáticas</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-green-50 rounded-xl cursor-pointer hover:bg-green-100 transition-colors">
+                            <input type="checkbox" id="readingCompleted" class="w-5 h-5 text-green-600 rounded">
+                            <span class="font-medium text-green-800">📖 Lectura</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-4 bg-purple-50 rounded-xl cursor-pointer hover:bg-purple-100 transition-colors">
+                            <input type="checkbox" id="writingCompleted" class="w-5 h-5 text-purple-600 rounded">
+                            <span class="font-medium text-purple-800">✍️ Escritura</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">
+                        <i class="fas fa-sticky-note mr-2 text-yellow-600"></i>Notas del Día
+                    </label>
+                    <textarea id="dailyNotes" placeholder="¿Qué aprendiste hoy? ¿Qué fue difícil? ¿Cómo te sientes?" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-0 input-glow transition-all h-24 resize-none"></textarea>
+                </div>
+                
+                <button onclick="saveDailyProgress()" class="button-3d text-white px-8 py-4 rounded-xl font-semibold text-lg w-full md:w-auto">
+                    <i class="fas fa-save mr-2"></i>💾 Guardar Progreso
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="glass-effect rounded-2xl p-8 card-hover">
+                <div class="flex items-center mb-6">
+                    <div class="text-3xl mr-3">📊</div>
+                    <h3 class="text-xl font-bold text-white">Estadísticas por Materia</h3>
+                </div>
+                <div class="bg-white/90 rounded-xl p-4">
+                    <canvas id="subjectChart" width="300" height="300"></canvas>
+                </div>
+            </div>
+            
+            <div class="glass-effect rounded-2xl p-8 card-hover">
+                <div class="flex items-center mb-6">
+                    <div class="text-3xl mr-3">🏆</div>
+                    <h3 class="text-xl font-bold text-white">Logros Recientes</h3>
+                </div>
+                <div id="achievements" class="space-y-4">
+                    <div class="achievement-card text-white p-4 rounded-xl shadow-lg">
+                        <div class="flex items-center space-x-4">
+                            <div class="text-3xl">🎯</div>
+                            <div>
+                                <div class="font-bold text-lg">¡Bienvenido a tu plan SAT!</div>
+                                <div class="text-sm opacity-90">Comienza registrando tu primer día de estudio</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Motivational Footer -->
-    <div class="mt-12 text-center">
-        <div class="glass-effect rounded-2xl p-8 card-hover">
-            <div class="text-4xl mb-4 float-animation">🚀</div>
-            <h3 class="text-2xl font-bold text-white mb-2">¡Tú puedes lograrlo!</h3>
-            <p class="text-blue-100 text-lg">Cada día de estudio te acerca más a tu meta de 1450-1500</p>
-            <div class="mt-4 flex justify-center space-x-4">
-                <span class="text-2xl">💪</span>
-                <span class="text-2xl">📚</span>
-                <span class="text-2xl">🎓</span>
-                <span class="text-2xl">⭐</span>
+        <!-- Motivational Footer -->
+        <div class="mt-12 text-center">
+            <div class="glass-effect rounded-2xl p-8 card-hover">
+                <div class="text-4xl mb-4 float-animation">🚀</div>
+                <h3 class="text-2xl font-bold text-white mb-2">¡Tú puedes lograrlo!</h3>
+                <p class="text-blue-100 text-lg">Cada día de estudio te acerca más a tu meta de 1450-1500</p>
+                <div class="mt-4 flex justify-center space-x-4">
+                    <span class="text-2xl">💪</span>
+                    <span class="text-2xl">📚</span>
+                    <span class="text-2xl">🎓</span>
+                    <span class="text-2xl">⭐</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 <script>
-    // Study plan data (same as before)
+    // Study plan data
     const studyPlan = {
         1: {
             title: "FUNDAMENTOS CLAVE (2-7 julio)",
@@ -453,6 +481,25 @@
     let progressData = loadData('satProgress') || [];
     let currentWeek = 1;
 
+    // DOM Elements
+    const weekButtonsContainer = document.getElementById('weekButtonsContainer');
+    const scheduleContent = document.getElementById('scheduleContent');
+    const studyDateInput = document.getElementById('studyDate');
+    const practiceScoreInput = document.getElementById('practiceScore');
+    const mathCompletedCheckbox = document.getElementById('mathCompleted');
+    const readingCompletedCheckbox = document.getElementById('readingCompleted');
+    const writingCompletedCheckbox = document.getElementById('writingCompleted');
+    const dailyNotesTextarea = document.getElementById('dailyNotes');
+    const currentScoreDisplay = document.getElementById('currentScore');
+    const daysStudiedDisplay = document.getElementById('daysStudied');
+    const daysRemainingDisplay = document.getElementById('daysRemaining');
+    const achievementsDiv = document.getElementById('achievements');
+    const notificationContainer = document.getElementById('notificationContainer');
+
+    // Chart instances
+    let progressChartInstance;
+    let subjectChartInstance;
+
     // Show week schedule
     function showWeek(weekNum) {
         currentWeek = weekNum;
@@ -460,9 +507,13 @@
         
         // Update active button
         document.querySelectorAll('.week-btn').forEach(btn => {
-            btn.classList.remove('neon-glow', 'scale-110');
+            btn.classList.remove('selected'); // Remove selected class from all
         });
-        event.target.classList.add('neon-glow', 'scale-110');
+        // Add selected class to the clicked button
+        const selectedButton = document.querySelector(`.week-btn[data-week="${weekNum}"]`);
+        if (selectedButton) {
+            selectedButton.classList.add('selected');
+        }
         
         let scheduleHTML = `
             <div class="mb-6 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
@@ -474,7 +525,7 @@
         
         for (const [day, activities] of Object.entries(week.schedule)) {
             scheduleHTML += `
-                <div class="border-l-4 border-gradient-to-b from-blue-500 to-purple-600 pl-6 py-4 bg-gradient-to-r from-blue-50/50 to-transparent rounded-r-xl">
+                <div class="border-l-4 border-blue-500 pl-6 py-4 bg-gradient-to-r from-blue-50/50 to-transparent rounded-r-xl">
                     <h4 class="font-bold text-xl text-gray-800 mb-3 flex items-center">
                         <i class="fas fa-calendar-day mr-2 text-blue-600"></i>${day}
                     </h4>
@@ -508,17 +559,17 @@
         }
         
         scheduleHTML += `</div>`;
-        document.getElementById('scheduleContent').innerHTML = scheduleHTML;
+        scheduleContent.innerHTML = scheduleHTML;
     }
 
     // Save daily progress
     function saveDailyProgress() {
-        const date = document.getElementById('studyDate').value;
-        const score = document.getElementById('practiceScore').value;
-        const mathCompleted = document.getElementById('mathCompleted').checked;
-        const readingCompleted = document.getElementById('readingCompleted').checked;
-        const writingCompleted = document.getElementById('writingCompleted').checked;
-        const notes = document.getElementById('dailyNotes').value;
+        const date = studyDateInput.value;
+        const score = practiceScoreInput.value;
+        const mathCompleted = mathCompletedCheckbox.checked;
+        const readingCompleted = readingCompletedCheckbox.checked;
+        const writingCompleted = writingCompletedCheckbox.checked;
+        const notes = dailyNotesTextarea.value;
 
         if (!date) {
             showNotification('Por favor selecciona una fecha', 'error');
@@ -548,28 +599,32 @@
         addAchievement(`Progreso guardado para ${new Date(date).toLocaleDateString('es-ES')}`, '📅');
 
         // Clear form
-        document.getElementById('studyDate').value = '';
-        document.getElementById('practiceScore').value = '';
-        document.getElementById('mathCompleted').checked = false;
-        document.getElementById('readingCompleted').checked = false;
-        document.getElementById('writingCompleted').checked = false;
-        document.getElementById('dailyNotes').value = '';
+        studyDateInput.value = '';
+        practiceScoreInput.value = '';
+        mathCompletedCheckbox.checked = false;
+        readingCompletedCheckbox.checked = false;
+        writingCompletedCheckbox.checked = false;
+        dailyNotesTextarea.value = '';
 
         showNotification('¡Progreso guardado exitosamente! 🎉', 'success');
     }
 
-    // Show notification
+    // Show notification (improved for immediate appearance and smooth fade out)
     function showNotification(message, type) {
         const notification = document.createElement('div');
-        notification.className = `fixed top-4 right-4 z-50 p-4 rounded-xl shadow-lg transform transition-all duration-300 ${
-            type === 'success' ? 'bg-green-500' : 'bg-red-500'
-        } text-white font-semibold`;
+        notification.className = `notification ${type}`;
         notification.textContent = message;
-        document.body.appendChild(notification);
+        notificationContainer.appendChild(notification);
 
+        // Trigger reflow to ensure animation starts from initial state
+        void notification.offsetWidth; 
+
+        // Set a timeout to hide the notification after 3 seconds
         setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => notification.remove(), 300);
+            notification.classList.add('hide'); // Add hide class to trigger fade out animation
+            notification.addEventListener('animationend', () => {
+                notification.remove(); // Remove after animation
+            }, { once: true });
         }, 3000);
     }
 
@@ -579,19 +634,31 @@
         const latestScore = progressData.length > 0 ? 
             progressData.filter(p => p.score).pop()?.score || 780 : 780;
 
-        document.getElementById('daysStudied').textContent = daysStudied;
-        document.getElementById('currentScore').textContent = latestScore;
+        currentScoreDisplay.textContent = latestScore;
+        daysStudiedDisplay.textContent = daysStudied;
 
         // Calculate days remaining
-        const examDate = new Date('2024-08-23');
+        const examDate = new Date('2025-08-23'); // Updated exam date to a future date
         const today = new Date();
-        const daysRemaining = Math.ceil((examDate - today) / (1000 * 60 * 60 * 24));
-        document.getElementById('daysRemaining').textContent = Math.max(0, daysRemaining);
+        // Set both dates to start of day to avoid time differences affecting calculation
+        examDate.setHours(0, 0, 0, 0);
+        today.setHours(0, 0, 0, 0);
+
+        const diffTime = examDate.getTime() - today.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        daysRemainingDisplay.textContent = Math.max(0, diffDays);
+
+        // Update progress bar width based on current score relative to target
+        const targetScore = parseInt(document.getElementById('targetScore').textContent);
+        const initialScore = 780; // Assuming initial score is fixed at 780
+        const scoreRange = targetScore - initialScore;
+        const currentProgress = latestScore - initialScore;
+        const progressBarWidth = (currentProgress / scoreRange) * 100;
+        document.querySelector('.bg-gradient-to-r').style.width = `${Math.max(0, Math.min(100, progressBarWidth))}%`;
     }
 
     // Add achievement
     function addAchievement(text, emoji) {
-        const achievementsDiv = document.getElementById('achievements');
         const achievement = document.createElement('div');
         achievement.className = 'achievement-card text-white p-4 rounded-xl shadow-lg';
         achievement.innerHTML = `
@@ -611,16 +678,14 @@
         }
     }
 
-    // Initialize charts
-    let progressChart, subjectChart;
-
+    // Update charts
     function updateCharts() {
         // Progress Chart
         const ctx1 = document.getElementById('progressChart').getContext('2d');
         const scores = progressData.filter(p => p.score).map(p => ({ x: p.date, y: p.score }));
         
-        if (progressChart) progressChart.destroy();
-        progressChart = new Chart(ctx1, {
+        if (progressChartInstance) progressChartInstance.destroy();
+        progressChartInstance = new Chart(ctx1, {
             type: 'line',
             data: {
                 datasets: [{
@@ -638,6 +703,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false, // Allow canvas to resize freely
                 plugins: {
                     legend: {
                         labels: {
@@ -666,8 +732,8 @@
         const readingDays = progressData.filter(p => p.activities.reading).length;
         const writingDays = progressData.filter(p => p.activities.writing).length;
 
-        if (subjectChart) subjectChart.destroy();
-        subjectChart = new Chart(ctx2, {
+        if (subjectChartInstance) subjectChartInstance.destroy();
+        subjectChartInstance = new Chart(ctx2, {
             type: 'doughnut',
             data: {
                 labels: ['📊 Matemáticas', '📖 Lectura', '✍️ Escritura'],
@@ -688,6 +754,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false, // Allow canvas to resize freely
                 plugins: {
                     legend: { 
                         position: 'bottom',
@@ -701,13 +768,34 @@
         });
     }
 
+    // Generate week buttons dynamically
+    function generateWeekButtons() {
+        weekButtonsContainer.innerHTML = '';
+        for (let i = 1; i <= Object.keys(studyPlan).length; i++) {
+            const weekData = studyPlan[i];
+            const button = document.createElement('button');
+            button.className = 'week-card week-btn';
+            button.setAttribute('data-week', i); // Add data attribute for easy selection
+            button.innerHTML = `
+                <div class="text-2xl mb-2">${weekData.title.includes('FUNDAMENTOS') ? '🏗️' : weekData.title.includes('ESTRUCTURA') ? '🧱' : weekData.title.includes('INTERMEDIOS') ? '⚡' : weekData.title.includes('ESTRATÉGICA') ? '🎯' : weekData.title.includes('FORTALEZA') ? '💪' : weekData.title.includes('PERFECCIONAMIENTO') ? '✨' : weekData.title.includes('REVISIÓN') ? '🔍' : '🏆'}</div>
+                <div>Semana ${i}</div>
+                <div class="text-xs opacity-80">${weekData.objective.split(' ')[0]}...</div>
+            `;
+            button.addEventListener('click', () => showWeek(i));
+            weekButtonsContainer.appendChild(button);
+        }
+    }
+
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
-        showWeek(1);
+        generateWeekButtons(); // Generate buttons first
+        showWeek(1); // Show first week by default
         updateStats();
         updateCharts();
         
         // Set today's date as default
-        document.getElementById('studyDate').valueAsDate = new Date();
+        studyDateInput.valueAsDate = new Date();
     });
 </script>
+</body>
+</html>
